@@ -384,6 +384,39 @@
         .swiper-pagination-bullet {
             background: #3C3C3C!important;
         }
+
+        
+        .two-line-limit {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @media (max-width: 779px) {
+            .swiper-slide{
+                background: transparent!important;
+                border: none!important;
+            }
+            .card-mobile {
+                display: block;
+            }
+
+            .progress-text {
+                font-size: 13px;
+                opacity: 0.6;
+                letter-spacing: 1px;
+            }
+
+            .btn-course {
+                position: revert !important;
+                float: right
+            }
+            .img-sidebar{
+                height: 200px;
+            }
+        }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
@@ -474,7 +507,9 @@
                             @endforeach
                         @endif
                     @else
+                    <center>
                         <h5 style="color: red">Tidak Ada jawaban! Jadilah orang pertama yang menjawab pertanyaan ini.</h5>
+                    </center>
                     @endif
 
 
@@ -515,7 +550,7 @@
 
                                 <h4 class="mb-1 mt-3 mb-2" style="color: white!important">Pertanyaan Terkini</h4>
 
-                                @foreach ($materi_more as $mm)
+                                @foreach ($materi_more_limit as $mm)
                                     <a href="{{ route('detail.materi', $mm->slug) }}">
                                         <div class="card mb-2"
                                             style="width: auto;background:transparent;border:2px solid white;">
@@ -523,7 +558,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-4">
                                                         <img src="{{ asset('assets/img/cover/' . $mm->image_cover) }}"
-                                                            class="img-fluid" alt="...">
+                                                            class="img-fluid img-sidebar" alt="..." style="object-fit: cover; width: 100%;border-radius:10px;margin-bottom : 5px">
                                                     </div>
                                                     <div class="col-lg-8" style="padding-left: 10px !important;">
                                                         <p class="card-text one-line-limit"
@@ -620,46 +655,29 @@
                     <div class="swiper mySwiper mySwipermobile" id="swipermobile" style="display: none">
                         <div class="swiper-wrapper">
                             @foreach ($materi_more as $post)
-                                <div class="swiper-slide card__content">
-                                    <article class="article-mobile">
-                                        <div class="row" style="width: 114%">
-                                            <div class="col-6">
-                                                <img src="{{ asset('assets/img/cover/' . $post->image_cover) }}"
-                                                    style="" alt="{{ $post->judul }}"
-                                                    class="mini-cover1 brd-r-15 img-fluid img-fluid-slider">
-                                            </div>
-                                            <div class="col-6 col-8-mobile-article">
-
-                                                <div class="text text-white w-90">
-                                                    <a href="{{ route('detail.materi', $post->slug) }}">
-                                                        <p class="text-white mt-2 d-flex align-items-center">
-                                                            Admin &nbsp; <span class="dot-separate">-</span>
-                                                            &nbsp; {{ date('M d, Y', strtotime($post->created_at)) }}
-                                                        </p>
-                                                    </a>
-
-                                                </div>
-                                                <div class="row" style="width: 100%">
-                                                    <div class="col-lg-12">
-                                                        <p class="text-white mt-2 d-flex align-items-center"
-                                                            style=" white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                                                            {{ $post->judul }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="width: 100%">
-                                                    <div class="col-lg-11">
-                                                        <hr>
-                                                    </div>
-                                                    <div class="col-lg-1">
-                                                        <a class="btn btn-sm btn-primary btn-article"
-                                                            href="{{ route('detail.materi', $post->slug) }}"
-                                                            style="border-radius: 5px; background: linear-gradient(87.07deg, #1D2E69 -24.25%, #395BCF 116.5%);">></a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div class="swiper-slide">
+                                    <div class="card mb-3" style="width: auto; height: 400px;">
+                                        <div class="image-container" style="height: 200px; overflow: hidden;">
+                                            <img src="{{ asset('assets/img/cover/' . $post->image_cover) }}"
+                                                class="card-img-top" alt="..."
+                                                style="height: 100%; width: 100%; object-fit: cover;">
                                         </div>
-                                    </article>
+                                        <div class="card-body d-flex flex-column justify-content-between"
+                                            style="height: 300px;">
+                                            <span class="progress-text">
+                                                @php
+                                                    $dataquest = \App\Models\Pertanyaan::where('id_materi', $post->id)
+                                                        ->get()
+                                                        ->count();
+                                                @endphp
+                                                {{ $dataquest }} Pertanyaan | {{ $post->created_at }}
+                                            </span>
+                                            <h2 class="one-line-limit mt-4 course-title">{{ $post->judul }}</h2>
+                                            <p class="two-line-limit">{{ $post->description }}</p>
+                                            <a href="{{ route('detail.materi', $post->slug) }}" class="btn-course"
+                                                style="margin-top: 10px!important;float:right;text-align:center">Continue</a>
+                                        </div>
+                                    </div>
                                 </div>
                             @endforeach
 

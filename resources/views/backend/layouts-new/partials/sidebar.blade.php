@@ -57,7 +57,7 @@
                     <div data-i18n="Dashboards">Beranda</div>
                 </a>
             </li>
-            <li class="menu-item mt-3 {{ Request::routeIs('index') ? 'active' : '' }}">
+            <li class="menu-item {{ Request::routeIs('index') ? 'active' : '' }}">
                 <a href="{{ route('index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bxs-cog"></i>
                     <div data-i18n="Dashboards">Ajukan Pertanyaan</div>

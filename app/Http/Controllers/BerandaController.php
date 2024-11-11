@@ -15,21 +15,23 @@ class BerandaController extends Controller
 {
     public function index(){
         $data['page_title'] = 'Beranda';
-        $data['materi_more'] = Materi::orderBy('created_at','desc')->where('status',1)->get();
+        $data['materi_more'] = Materi::orderBy('created_at','desc')->where('status',1)->get()->take(5);
         $data['materi'] = Materi::orderBy('created_at', 'desc')->where('status',1)->get();
         return view('frontend.beranda.index', $data);
     }
     public function detail($slug){
         $data['materi'] = Materi::where('slug',$slug)->first();
         $data['page_title'] = 'Materi | '.$data['materi']->judul;
-        $data['materi_more'] = Materi::whereNotIn('slug',[$slug])->where('status',1)->orderBy('created_at','desc')->get();
+        $data['materi_more'] = Materi::whereNotIn('slug',[$slug])->where('status',1)->orderBy('created_at','desc')->get()->take(5);
+        $data['materi_more_limit'] = Materi::whereNotIn('slug',[$slug])->where('status',1)->orderBy('created_at','desc')->get()->take(5);
         $data['pertanyaan'] = Pertanyaan::where('id_materi',$data['materi']->id)->orderBy('created_at','asc')->get();
         return view('frontend.beranda.detail', $data);
     }
     public function jawab($slug,$id){
         $data['materi'] = Materi::where('slug',$slug)->first();
         $data['page_title'] = 'Materi | '.$data['materi']->judul;
-        $data['materi_more'] = Materi::whereNotIn('slug',[$slug])->where('status',1)->orderBy('created_at','desc')->get();
+        $data['materi_more'] = Materi::whereNotIn('slug',[$slug])->where('status',1)->orderBy('created_at','desc')->get()->take(5);
+        $data['materi_more_limit'] = Materi::whereNotIn('slug',[$slug])->where('status',1)->orderBy('created_at','desc')->get()->take(5);
         $data['pertanyaan'] = Pertanyaan::find($id);
         $data['jawaban'] = JawabPertanyaan::where('id_pertanyaan',$id)->orderBy('created_at','desc')->get();
         return view('frontend.beranda.jawab', $data);

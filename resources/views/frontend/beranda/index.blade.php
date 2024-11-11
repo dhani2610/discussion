@@ -306,29 +306,40 @@
         .course-item {
             transition: opacity 0.3s ease-in-out;
         }
+
         #noResultsMessage {
             margin-top: 20px;
             font-weight: bold;
             color: #ff0000;
         }
-        .card-mobile{
+
+        .card-mobile {
             display: none;
         }
 
         @media (max-width: 779px) {
-          .card-mobile{
-            display: block;
-          }
-          .card-pc{
-            display: none
-          }
-          .progress-text {
+            .card-mobile {
+                display: block;
+            }
+
+            .card-pc {
+                display: none
+            }
+
+            .progress-text {
                 font-size: 16px;
                 opacity: 0.6;
                 letter-spacing: 1px;
             }
-        }
 
+            .btn-course {
+                position: revert !important;
+                float: right
+            }
+            .img-sidebar{
+                height: 200px;
+            }
+        }
     </style>
 
     <div class="main-content-inner">
@@ -351,7 +362,7 @@
                                                         ->get()
                                                         ->count();
                                                 @endphp
-                                                {{ $dataquest }} Question
+                                                {{ $dataquest }} Pertanyaan
                                             </span>
                                         </div>
                                         <h2 class="one-line-limit mt-4 course-title">{{ $item->judul }}</h2>
@@ -366,10 +377,11 @@
                         </div>
                     </div>
 
-                    <div class="row card-mobile" >
+                    <div class="row card-mobile">
                         <div class="col-lg-12">
                             <div class="card mb-3 " style="width: auto;">
-                                <img src="{{ asset('assets/img/cover/' . $item->image_cover) }}" class="card-img-top" alt="...">
+                                <img src="{{ asset('assets/img/cover/' . $item->image_cover) }}" class="card-img-top"
+                                        alt="..." style="height: 200px; object-fit: cover; width: 100%;">
                                 <div class="card-body">
                                     <span class="progress-text">
                                         @php
@@ -377,15 +389,15 @@
                                                 ->get()
                                                 ->count();
                                         @endphp
-                                        {{ $dataquest }} Question
+                                        {{ $dataquest }} Pertanyaan | {{ $item->created_at }}
                                     </span>
                                     <h2 class="one-line-limit mt-4 course-title">{{ $item->judul }}</h2>
                                     <p class="two-line-limit">{{ $item->description }}</p>
-                                    <p class="two-line-limit">{{ $item->created_at }}</p>
 
-                                    <a href="{{ route('detail.materi', $item->slug) }}" class="btn-course" style="margin-top: 10px!important">Continue</a>
+                                    <a href="{{ route('detail.materi', $item->slug) }}" class="btn-course"
+                                        style="margin-top: 10px!important">Continue</a>
                                 </div>
-                              </div>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -432,7 +444,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-4">
                                                         <img src="{{ asset('assets/img/cover/' . $mm->image_cover) }}"
-                                                            class="img-fluid" alt="...">
+                                                            class="img-fluid img-sidebar" alt="..." style="object-fit: cover; width: 100%;border-radius:10px;margin-bottom : 5px">
                                                     </div>
                                                     <div class="col-lg-8" style="padding-left: 10px !important;">
                                                         <p class="card-text one-line-limit"
